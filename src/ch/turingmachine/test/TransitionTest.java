@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import ch.turingmachine.State;
 import ch.turingmachine.Transition;
 import ch.turingmachine.Tape.Direction;
 
@@ -23,7 +24,8 @@ public class TransitionTest {
 	
 	@Test
 	public void testParseAssign() {
-		Transition t = new Transition("101", "110", "LRN");
+		State s = new State();
+		Transition t = new Transition("101", "110", "LRN", s);
 		assertArrayEquals("101".toCharArray(), t.getInput());
 		assertArrayEquals("110".toCharArray(), t.getOutput());
 		assertArrayEquals(new Direction[] {Direction.Left, Direction.Right, Direction.Neutral}, t.getDirec());

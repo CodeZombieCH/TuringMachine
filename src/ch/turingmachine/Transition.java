@@ -7,6 +7,7 @@ public class Transition
 	private char[] input;
 	private char[] output;
 	private Direction[] direc;
+	private State targetState;
 	
 	
 	public Transition(int dimension) {
@@ -15,7 +16,11 @@ public class Transition
 		direc = new Direction[dimension];
 	}
 	
-	public Transition(String input, String output, String directions) {
+	public Transition(String input, String output, String directions, State targetState) {
+		if(targetState == null) {
+			//throw new NullPointerException(); 
+		}
+		
 		// We take the length of the first string as the dimension
 		int dimension = input.length();
 		
@@ -41,6 +46,8 @@ public class Transition
 					break;
 			}
 		}
+		
+		this.targetState = targetState;
 	}
 
 	public char[] getOutput()
@@ -71,6 +78,13 @@ public class Transition
 	public void setDirec(Direction[] directions)
 	{
 		this.direc = directions;
-		
+	}
+
+	public State getTargetState() {
+		return targetState;
+	}
+
+	public void setTargetState(State targetState) {
+		this.targetState = targetState;
 	}
 }
