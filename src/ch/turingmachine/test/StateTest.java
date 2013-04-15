@@ -21,10 +21,8 @@ public class StateTest {
 		Transition transition = new Transition(input, output, direc, new State("s1"));
 		
 		state.addState(transition);
-		actual = state.getState("101".toCharArray());
+		actual = state.getState(input.toCharArray());
 		
-		System.out.println(actual);
-		assertEquals("101110LRN",actual);
+		assertArrayEquals("110".toCharArray() , actual.getOutput());
 	}
-
 }
