@@ -3,12 +3,24 @@ package ch.turingmachine;
 import java.util.Stack;
 
 public class Tape {
-	private Stack<Character> leftTape;
-	private Stack<Character> rightTape;
+	private Stack<Character> leftTape = new Stack<Character>();
+	private Stack<Character> rightTape = new Stack<Character>();
 	private char current;
 	
 	public Tape() {
 		
+	}
+	
+	public Tape(String input) {
+		this(input.toCharArray());
+	}
+	
+	public Tape(char[] input) {
+		for(char c : input) {
+			this.rightTape.push(c);
+		}
+		
+		this.current = rightTape.pop();
 	}
 	
 	public char read() {
