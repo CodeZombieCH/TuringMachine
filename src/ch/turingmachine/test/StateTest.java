@@ -18,7 +18,7 @@ public class StateTest {
 		Transition actual;
 		
 		State state = new State();
-		Transition transition = new Transition(input,output,direc);
+		Transition transition = new Transition(input, output, direc, new State());
 		
 		state.addState(transition);
 		actual = state.getState("101110LRN".toCharArray());
