@@ -1,15 +1,18 @@
 package ch.turingmachine;
 
+import ch.turingmachine.Tape.Direction;
+
 public class Transition
 {
 	private char[] input;
 	private char[] output;
-	private char[] direction;
+	private Direction[] direc;
 	
-	public Transition(int inp, int outp, int dire) {
-		setInput(new char[inp]);
-		setOutput(new char[outp]);
-		setDirection(new char[dire]);
+	
+	public Transition(int dimension) {
+		input = new char[dimension];
+		output = new char[dimension];
+		direc = new Direction[dimension];
 		
 	}
 
@@ -33,16 +36,16 @@ public class Transition
 		this.input = input;
 	}
 
-	public char[] getDirection()
+	public Direction[] getDirec()
 	{
-		return direction;
+		return direc;
 	}
 
-	public void setDirection(char[] direction)
+	public void setDirec(Direction[] directions)
 	{
-		this.direction = direction;
+		this.direc = directions;
+		
 	}
 
 
-	
 }
