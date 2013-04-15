@@ -5,9 +5,15 @@ import java.util.*;
 public class State {
 	
 	private ArrayList<Transition> state;
+	private String name;
 	
 	public State() {
 		state = new ArrayList<Transition>();
+	}
+	
+	public State(String name) {
+		state = new ArrayList<Transition>();
+		this.setName(name);
 	}
 	
 	public Transition getState(char[] input) {
@@ -23,5 +29,13 @@ public class State {
 	
 	public void addState(Transition transition) {
 		state.add(transition);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
