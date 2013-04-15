@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import ch.turingmachine.Direction;
 import ch.turingmachine.State;
 import ch.turingmachine.Transition;
-import ch.turingmachine.Tape.Direction;
 
 public class TransitionTest {
 

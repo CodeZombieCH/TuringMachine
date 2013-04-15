@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import ch.turingmachine.Direction;
 import ch.turingmachine.Tape;
-import ch.turingmachine.Tape.Direction;
 
 public class TapeTest {
 
@@ -56,5 +56,10 @@ public class TapeTest {
 		tape.write(Tape.BLANK, Direction.LEFT);
 		tape.write(Tape.BLANK, Direction.LEFT);
 		assertEquals('0', tape.read());
+	}
+	
+	public void testEmpty() {
+		Tape tape = new Tape();
+		assertEquals(Tape.BLANK, tape.read());
 	}
 }

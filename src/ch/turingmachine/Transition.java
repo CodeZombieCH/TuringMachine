@@ -1,7 +1,5 @@
 package ch.turingmachine;
 
-import ch.turingmachine.Tape.Direction;
-
 public class Transition
 {
 	private char[] input;
@@ -27,23 +25,15 @@ public class Transition
 		this.input = input.toCharArray();
 		this.output = output.toCharArray();
 		
-		// TODO: MOVE!
 		this.direc = new Direction[dimension];
 		for (int i = 0; i < directions.length(); i++) {
 			char d = directions.charAt(i);
 			
-			switch(d) {
-				case 'L':
-				case '<':
-					this.direc[i] = Direction.LEFT;
-					break;
-				case 'R':
-				case '>':
-					this.direc[i] = Direction.RIGHT;
-					break;
-				case 'N':
-					this.direc[i] = Direction.NEUTRAL;
-					break;
+			try {
+				this.direc[i] = Utilities.parseDirection(d);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		
