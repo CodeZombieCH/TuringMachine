@@ -7,10 +7,11 @@ public class Transition
 	 * @param args
 	 */
 	
-	public static void main(String[] args)
-	{
-		
+	public Transition(int inp, int outp, int dire) {
+	
+		char Input[] = new char[inp];
+		char Output[] = new char[outp];
+		char Direction[] = new char[dire];
 
 	}
-
 }
