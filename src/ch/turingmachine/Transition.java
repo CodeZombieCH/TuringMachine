@@ -35,14 +35,14 @@ public class Transition
 			switch(d) {
 				case 'L':
 				case '<':
-					this.direc[i] = Direction.Left;
+					this.direc[i] = Direction.LEFT;
 					break;
 				case 'R':
 				case '>':
-					this.direc[i] = Direction.Right;
+					this.direc[i] = Direction.RIGHT;
 					break;
 				case 'N':
-					this.direc[i] = Direction.Neutral;
+					this.direc[i] = Direction.NEUTRAL;
 					break;
 			}
 		}

@@ -3,9 +3,12 @@ package ch.turingmachine;
 import java.util.Stack;
 
 public class Tape {
+	public static final char BLANK = 'B';
+	
 	private Stack<Character> leftTape = new Stack<Character>();
 	private Stack<Character> rightTape = new Stack<Character>();
 	private char current;
+	private int blankOffset = 0;
 	
 	public Tape() {
 		
@@ -24,23 +27,65 @@ public class Tape {
 	}
 	
 	public char read() {
-		return this.current;
+		if(this.blankOffset == 0) {
+			return this.current;
+		}
+		else {
+			return BLANK;
+		}
 	}
 	
 	public void write(char value, Direction direction) {
-		if(direction == Direction.Left) {
-			rightTape.push(this.current);
-			this.current = leftTape.pop();
+		if(direction == Direction.LEFT) {
+			if(this.blankOffset < 0) {
+				this.blankOffset--;
+			}
+			else if(this.blankOffset > 0) {
+				this.blankOffset--;
+			}
+			else
+			{
+				this.rightTape.push(this.current);
+	
+				if(this.leftTape.empty()) {
+					this.blankOffset--;
+					this.current = BLANK;
+				}
+				else {
+					this.current = leftTape.pop();
+				}
+			}
 		}
-		else if(direction == Direction.Right) {
-			leftTape.push(this.current);
-			this.current = rightTape.pop();
+		else if(direction == Direction.RIGHT) {
+			if(this.blankOffset < 0) {
+				this.blankOffset++;
+			}
+			else if(this.blankOffset > 0) {
+				this.blankOffset++;
+			}
+			else
+			{
+				leftTape.push(this.current);
+	
+				if(this.rightTape.empty()) {
+					this.blankOffset++;
+					this.current = BLANK;
+				}
+				else {
+					this.current = rightTape.pop();
+				}
+			}
 		}
 	}
 	
+	@Override
+	public String toString() {
+		return leftTape.toString() + current + rightTape.toString();
+	}
+	
 	public enum Direction {
-		Left,
-		Right,
-		Neutral
+		LEFT,
+		RIGHT,
+		NEUTRAL
 	}
 }
