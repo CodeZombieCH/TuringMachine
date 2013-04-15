@@ -12,10 +12,13 @@ public class State {
 	
 	public Transition getState(char[] input) {
 		// check if possible
-		
-		// return transition
-		
-		throw new UnsupportedOperationException("Not implemented, go on Sämy");
+		for (Transition t : state) {
+			if(Arrays.equals(input, t.getInput())) {
+				return t;
+			}
+		}
+		// return null if no state is found
+		return null;
 	}
 	
 	public void addState(Transition transition) {
