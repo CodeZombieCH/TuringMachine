@@ -10,10 +10,12 @@ public class State {
 		state = new ArrayList<Transition>();
 	}
 	
-	public void getState() {
+	public Transition getState(char[] input) {
 		// check if possible
 		
 		// return transition
+		
+		throw new UnsupportedOperationException("Not implemented, go on Sämy");
 	}
 	
 	public void addState(Transition transition) {
