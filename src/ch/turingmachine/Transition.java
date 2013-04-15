@@ -4,14 +4,14 @@ public class Transition
 {
 	private char[] input;
 	private char[] output;
-	private Direction[] direc;
+	private Direction[] direction;
 	private State targetState;
 	
 	
 	public Transition(int dimension) {
 		input = new char[dimension];
 		output = new char[dimension];
-		direc = new Direction[dimension];
+		direction = new Direction[dimension];
 	}
 	
 	public Transition(String input, String output, String directions, State targetState) {
@@ -25,12 +25,12 @@ public class Transition
 		this.input = input.toCharArray();
 		this.output = output.toCharArray();
 		
-		this.direc = new Direction[dimension];
+		this.direction = new Direction[dimension];
 		for (int i = 0; i < directions.length(); i++) {
 			char d = directions.charAt(i);
 			
 			try {
-				this.direc[i] = Utilities.parseDirection(d);
+				this.direction[i] = Utilities.parseDirection(d);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -60,14 +60,14 @@ public class Transition
 		this.input = input;
 	}
 
-	public Direction[] getDirec()
+	public Direction[] getDirection()
 	{
-		return direc;
+		return direction;
 	}
 
-	public void setDirec(Direction[] directions)
+	public void setDirection(Direction[] directions)
 	{
-		this.direc = directions;
+		this.direction = directions;
 	}
 
 	public State getTargetState() {

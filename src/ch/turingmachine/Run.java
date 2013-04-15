@@ -43,7 +43,7 @@ public class Run {
 			}
 
 			for(int i = 0; i < tapes.length; i++) {
-				tapes[i].write(matchingTransaction.getOutput()[i], matchingTransaction.getDirec()[i]);
+				tapes[i].write(matchingTransaction.getOutput()[i], matchingTransaction.getDirection()[i]);
 			}
 
 			current = matchingTransaction.getTargetState();

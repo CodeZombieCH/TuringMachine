@@ -16,10 +16,10 @@ public class TransitionTest {
 		Direction[] actdir = new Direction[] {Direction.NEUTRAL, Direction.RIGHT, Direction.RIGHT};
 		t.setInput("11B".toCharArray());
 		t.setOutput("111".toCharArray());
-		t.setDirec(actdir);
+		t.setDirection(actdir);
 		assertArrayEquals("11B".toCharArray(), t.getInput());
 		assertArrayEquals("111".toCharArray(), t.getOutput());
-		assertArrayEquals(actdir, t.getDirec());
+		assertArrayEquals(actdir, t.getDirection());
 	}
 	
 	@Test
@@ -28,7 +28,7 @@ public class TransitionTest {
 		Transition t = new Transition("101", "110", "LRN", s);
 		assertArrayEquals("101".toCharArray(), t.getInput());
 		assertArrayEquals("110".toCharArray(), t.getOutput());
-		assertArrayEquals(new Direction[] {Direction.LEFT, Direction.RIGHT, Direction.NEUTRAL}, t.getDirec());
+		assertArrayEquals(new Direction[] {Direction.LEFT, Direction.RIGHT, Direction.NEUTRAL}, t.getDirection());
 	}
 
 }
