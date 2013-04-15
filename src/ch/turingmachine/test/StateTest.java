@@ -11,21 +11,20 @@ public class StateTest {
 
 	@Test
 	public void test(){
-		int actual;
+		
+		String input = "101";
+		String output = "110";
+		String direc = "LRN";
+		Transition actual;
 		
 		State state = new State();
-		Transition transition = new Transition(1);
+		Transition transition = new Transition(input,output,direc);
 		
-		transition.setInput(0);
-		transition.setOutput(1);
-		transition.setDirec(Left);
+		state.addState(transition);
+		actual = state.getState("101110LRN".toCharArray());
 		
 		
-		actual = 101;
-		state.addState(1);
-		actual = state.getState(1);
-		
-		assertEquals('0',actual);
+		assertEquals("101110LRN",actual);
 	}
 
 }
