@@ -21,7 +21,7 @@ public class StateTest {
 		Transition transition = new Transition(input, output, direc, new State("s1"));
 		
 		state.addState(transition);
-		actual = state.getState(input.toCharArray());
+		actual = state.findTransaction(input.toCharArray());
 		
 		assertArrayEquals("110".toCharArray() , actual.getOutput());
 	}
