@@ -18,13 +18,11 @@ public class StateTest {
 		Transition actual;
 		
 		State state = new State();
-		Transition transition = new Transition(input, output, direc, new State());
+		Transition transition = new Transition(input, output, direc, new State("s1"));
 		
 		state.addState(transition);
-		actual = state.findTransaction("101110LRN".toCharArray());
+		actual = state.getState(input.toCharArray());
 		
-		
-		assertEquals("101110LRN",actual);
+		assertArrayEquals("110".toCharArray() , actual.getOutput());
 	}
-
 }
