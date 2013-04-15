@@ -11,10 +11,12 @@ public class State {
 	}
 	
 	public void getState() {
+		// check if possible
 		
+		// return transition
 	}
 	
-	public void setState() {
-		
+	public void addState(Transition transition) {
+		state.add(transition);
 	}
 }
