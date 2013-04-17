@@ -81,10 +81,10 @@ public class Run {
 		states[2].addState(new Transition("11B", "11B", "NNN", states[3]));
 		states[3].addState(new Transition("11B", "111", "NLR", states[3]));
 		states[3].addState(new Transition("1BB", "BBB", "LRN", states[4]));
-		states[3].addState(new Transition("B1B", "1BB", "RLL", states[5]));
+		states[3].addState(new Transition("B1B", "BBB", "NLL", states[5]));
 		states[4].addState(new Transition("11B", "111", "NRR", states[4]));
 		states[4].addState(new Transition("1BB", "BBB", "LLN", states[3]));
-		states[4].addState(new Transition("B1B", "1BB", "RRL", states[6]));
+		states[4].addState(new Transition("B1B", "BBB", "NRL", states[6]));
 		states[5].addState(new Transition("B11", "11B", "RNL", states[5]));
 		states[5].addState(new Transition("B1B", "B1B", "LNN", states[3]));
 		states[6].addState(new Transition("B11", "11B", "RNL", states[6]));
