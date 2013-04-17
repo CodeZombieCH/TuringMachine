@@ -44,6 +44,7 @@ public class Tape {
 			}
 			else if(this.blankOffset < 0) {
 				this.blankOffset--;
+				this.rightTape.push(value);
 			}
 			else
 			{
@@ -51,7 +52,7 @@ public class Tape {
 	
 				if(this.leftTape.empty()) {
 					// Leaving range
-					this.blankOffset--;
+					//this.blankOffset--;
 					this.current = BLANK;
 				}
 				else {
@@ -70,6 +71,7 @@ public class Tape {
 			}
 			else if(this.blankOffset > 0) {
 				this.blankOffset++;
+				this.leftTape.push(value);
 			}
 			else
 			{
@@ -77,13 +79,18 @@ public class Tape {
 	
 				if(this.rightTape.empty()) {
 					// Leaving range
-					this.blankOffset++;
+					//this.blankOffset++;
 					this.current = BLANK;
 				}
 				else {
 					this.current = rightTape.pop();
 				}
 			}
+		}
+		// Neutral
+		else
+		{
+			this.current = value;
 		}
 	}
 	
