@@ -43,9 +43,10 @@ public class FacultyMachine extends MachineBase implements Machine {
 		Tape[] tapes = new Tape[] { new Tape(input1), new Tape("B"),
 				new Tape("B") };
 
-		printTapes(tapes);
+		printTapes(tapes, current);
 
 		while (true) {
+			this.stepCount++;
 
 			char[] values = new char[3];
 
@@ -57,6 +58,7 @@ public class FacultyMachine extends MachineBase implements Machine {
 			Transition matchingTransaction = current.findTransaction(values);
 
 			if (matchingTransaction == null) {
+				printTapes(tapes, current);
 				System.out.println("Finished!");
 				return;
 			}
@@ -68,8 +70,8 @@ public class FacultyMachine extends MachineBase implements Machine {
 
 			current = matchingTransaction.getTargetState();
 
-			System.out.println(current.getName());
-			printTapes(tapes);
+			// Comment out for max performance :)
+			printTapes(tapes, current);
 		}
 	}
 }

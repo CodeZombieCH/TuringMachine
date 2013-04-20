@@ -32,9 +32,10 @@ public class MultiplicationMachine extends MachineBase implements Machine {
 				new Tape(input2),
 				new Tape("B") };
 
-		printTapes(tapes);
+		printTapes(tapes, current);
 
 		while (true) {
+			this.stepCount++;
 
 			char[] values = new char[3];
 
@@ -50,14 +51,15 @@ public class MultiplicationMachine extends MachineBase implements Machine {
 				return;
 			}
 
+			// Print all tapes
+			
 			for (int i = 0; i < tapes.length; i++) {
-				tapes[i].write(matchingTransaction.getOutput()[i],
-						matchingTransaction.getDirection()[i]);
+				tapes[i].write(matchingTransaction.getOutput()[i], matchingTransaction.getDirection()[i]);
 			}
 
 			current = matchingTransaction.getTargetState();
 
-			printTapes(tapes);
+			printTapes(tapes, current);
 
 			/*
 			try {
