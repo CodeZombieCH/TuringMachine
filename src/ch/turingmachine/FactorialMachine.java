@@ -1,8 +1,8 @@
 package ch.turingmachine;
 
-public class FacultyMachine extends MachineBase implements Machine {
+public class FactorialMachine extends MachineBase implements Machine {
 
-	public FacultyMachine() {
+	public FactorialMachine() {
 		// TODO Auto-generated constructor stub
 	}
 
