@@ -1,24 +1,33 @@
 package ch.turingmachine;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import com.googlecode.lanterna.screen.ScreenCharacterStyle;
+import com.googlecode.lanterna.screen.ScreenWriter;
 
 public class State {
 
-	private ArrayList<Transition> state;
+	private ArrayList<Transition> transitions;
 	private String name;
 
 	public State() {
-		state = new ArrayList<Transition>();
+		transitions = new ArrayList<Transition>();
 	}
 
 	public State(String name) {
-		state = new ArrayList<Transition>();
-		this.setName(name);
+		this();
+		this.name = name;
 	}
 
-	public Transition findTransaction(char[] input) {
-		// check if possible
-		for (Transition t : state) {
+	/**
+	 * Find a transition that matches the input (current position) values   
+	 * @param input
+	 * @return Matching transition or null if no match
+	 */
+	public Transition findTransition(char[] input) {
+		// Return the first (and hopefully only) matching transition
+		for (Transition t : transitions) {
 			if(Arrays.equals(input, t.getInput())) {
 				return t;
 			}
@@ -27,10 +36,10 @@ public class State {
 		return null;
 	}
 
-	public void addState(Transition transition) {
-		state.add(transition);
+	public void addTransition(Transition transition) {
+		transitions.add(transition);
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -38,4 +47,5 @@ public class State {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 }

@@ -58,8 +58,20 @@ public class TapeTest {
 		assertEquals('0', tape.read());
 	}
 	
+	@Test
 	public void testEmpty() {
 		Tape tape = new Tape();
 		assertEquals(Tape.BLANK, tape.read());
+	}
+	
+	@Test
+	public void testInitialize() {
+		Tape tape = new Tape();
+		tape.initialize("123456".toCharArray());
+		
+		for (int i = 1; i < 6; i++) {
+			assertEquals(Character.forDigit(i, 10), tape.read());
+			tape.move(Direction.RIGHT);
+		}
 	}
 }

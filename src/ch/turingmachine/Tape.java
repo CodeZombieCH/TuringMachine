@@ -2,6 +2,11 @@ package ch.turingmachine;
 
 import java.util.Stack;
 
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.screen.ScreenCharacterStyle;
+import com.googlecode.lanterna.screen.ScreenWriter;
+import com.googlecode.lanterna.terminal.Terminal.Color;
+
 public class Tape {
 	public static final char BLANK = 'B';
 	
@@ -26,6 +31,14 @@ public class Tape {
 		}
 		
 		this.current = rightTape.pop();
+	}
+	
+	public void initialize(char[] input) {
+		this.current = input[0];
+		
+		for (int i = input.length - 1; i > 0; i--) {
+			this.rightTape.push(input[i]);
+		}
 	}
 	
 	public char read() {
@@ -94,6 +107,14 @@ public class Tape {
 		}
 	}
 	
+	/**
+	 * Shorthand for moving only the head
+	 * @param direction
+	 */
+	public void move(Direction direction) {
+		this.write(this.read(), direction);
+	}
+	
 	private static char[] reverse(char[] input) {
 		char[] output = new char[input.length];
 		for (int i = 0; i < input.length; i++) {
@@ -104,10 +125,7 @@ public class Tape {
 	}
 	
 	@Override
-	public String toString() {
-		Character[] chars = new Character[rightTape.size()];
-		rightTape.copyInto(chars);
-		String right = "";
+	public String toString() {		Character[] chars = new Character[rightTape.size()];		rightTape.copyInto(chars);		String right = "";
 		for (int i = chars.length - 1; i >= 0; i--) {
 			right += chars[i] + "  ";
 		}
@@ -122,5 +140,49 @@ public class Tape {
 		left = left.trim();
 		
 		return (left + " [" + current + "] " + right).trim();
+	}
+	
+	public void printRange(ScreenWriter writer, int y, int range) {
+		// Expect cursor to be on the right line
+		
+		// Left
+		for (int i = 0; i < range; i++) {
+			int position = this.leftTape.size() - i - 1;
+			
+			if(position >= 0) {
+				writer.drawString((range - i - 1) * 3, y, " " + this.leftTape.get(position) + " ");
+			}
+			else {
+				writer.drawString((range - i - 1) * 3, y, " " + BLANK + " ");
+			}
+		}
+		
+		// Current
+		Color color = writer.getForegroundColor();
+		
+		writer.setForegroundColor(Color.YELLOW);
+		writer.drawString(range * 3, y, "[" + this.current + "]", ScreenCharacterStyle.Bold);
+		writer.setForegroundColor(color);
+
+		// Right
+		for (int i = 0; i < range; i++) {
+			int position = this.rightTape.size() - i - 1;
+			
+			if(position >= 0) {
+				writer.drawString((range + i + 1) * 3, y, " " + this.rightTape.get(position) + " ");
+			}
+			else {
+				writer.drawString((range + i + 1) * 3, y, " " + BLANK + " ");
+			}
+		}
+	}
+	
+	public void printCurrent(ScreenWriter writer, int y, int range) {
+		// Current
+		Color color = writer.getForegroundColor();
+		
+		writer.setForegroundColor(Color.YELLOW);
+		writer.drawString(range * 3, y, "[" + this.current + "]");
+		writer.setForegroundColor(color);
 	}
 }

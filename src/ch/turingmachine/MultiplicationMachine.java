@@ -22,10 +22,10 @@ public class MultiplicationMachine extends MachineBase implements Machine {
 				new State("State 2") };
 		State current = states[0];
 
-		states[0].addState(new Transition("11B", "111", "NRR", states[0]));
-		states[0].addState(new Transition("1BB", "BBB", "RLN", states[1]));
-		states[1].addState(new Transition("11B", "111", "NLR", states[1]));
-		states[1].addState(new Transition("1BB", "BBB", "RRN", states[0]));
+		states[0].addTransition(new Transition("11B", "111", "NRR", states[0]));
+		states[0].addTransition(new Transition("1BB", "BBB", "RLN", states[1]));
+		states[1].addTransition(new Transition("11B", "111", "NLR", states[1]));
+		states[1].addTransition(new Transition("1BB", "BBB", "RRN", states[0]));
 
 		Tape[] tapes = new Tape[] {
 				new Tape(input1),
@@ -44,7 +44,7 @@ public class MultiplicationMachine extends MachineBase implements Machine {
 				values[i] = tapes[i].read();
 			}
 
-			Transition matchingTransaction = current.findTransaction(values);
+			Transition matchingTransaction = current.findTransition(values);
 
 			if (matchingTransaction == null) {
 				System.out.println("Finished!");

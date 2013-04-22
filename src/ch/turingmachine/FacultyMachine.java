@@ -1,9 +1,23 @@
 package ch.turingmachine;
 
-public class FacultyMachine extends MachineBase implements Machine {
+import com.googlecode.lanterna.TerminalFacade;
+import com.googlecode.lanterna.input.Key;
+import com.googlecode.lanterna.input.Key.Kind;
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.screen.ScreenCharacterStyle;
+import com.googlecode.lanterna.screen.ScreenWriter;
+import com.googlecode.lanterna.terminal.Terminal.Color;
 
-	public FacultyMachine() {
-		// TODO Auto-generated constructor stub
+public class FacultyMachine extends MachineBase implements Machine {
+	private State[] states;
+	private State currentState;
+	private Tape[] tapes;
+	
+
+	public FacultyMachine(State[] states, State initialState, Tape[] tapes) {
+		this.states = states;
+		this.currentState = initialState;
+		this.tapes = tapes;
 	}
 
 	@Override
@@ -16,36 +30,30 @@ public class FacultyMachine extends MachineBase implements Machine {
 		// Convert argument to input string for tape 1
 		String input1 = new String(new char[args[0]]).replace("\0", "1");
 		
-		State[] states = new State[] { new State("State 1"),
-				new State("State 2"), new State("State 3"),
-				new State("State 4"), new State("State 5"),
-				new State("State 6"), new State("State 7") };
-		State current = states[0];
-
-		states[0].addState(new Transition("BBB", "BB1", "NNN", states[0]));
-		states[0].addState(new Transition("1BB", "11B", "RRN", states[1]));
-		states[1].addState(new Transition("1BB", "11B", "RRN", states[1]));
-		states[1].addState(new Transition("BBB", "BBB", "NLN", states[1]));
-		states[1].addState(new Transition("B1B", "BBB", "LLN", states[2]));
-		states[2].addState(new Transition("1BB", "BB1", "NNN", states[2]));
-		states[2].addState(new Transition("11B", "11B", "NNN", states[3]));
-		states[3].addState(new Transition("11B", "111", "NLR", states[3]));
-		states[3].addState(new Transition("1BB", "BBB", "LRN", states[4]));
-		states[3].addState(new Transition("B1B", "BBB", "NLL", states[5]));
-		states[4].addState(new Transition("11B", "111", "NRR", states[4]));
-		states[4].addState(new Transition("1BB", "BBB", "LLN", states[3]));
-		states[4].addState(new Transition("B1B", "BBB", "NRL", states[6]));
-		states[5].addState(new Transition("B11", "11B", "RNL", states[5]));
-		states[5].addState(new Transition("B1B", "B1B", "LNN", states[3]));
-		states[6].addState(new Transition("B11", "11B", "RNL", states[6]));
-		states[6].addState(new Transition("B1B", "B1B", "LNN", states[4]));
+		tapes[0].initialize(input1.toCharArray());
 		
-		Tape[] tapes = new Tape[] { new Tape(input1), new Tape("B"),
-				new Tape("B") };
+		// Initialize terminal
+		Screen screen = TerminalFacade.createScreen();
+		screen.startScreen();
+		
+		ScreenWriter writer = new ScreenWriter(screen);
+		
+		writer.drawString(0, 0, "╔═══════════════════════════════════════════════════════════════════════════════════════════╗", ScreenCharacterStyle.Bold);
+		writer.drawString(0, 1, "║   Turing machine                                        by Marc-André, Marco und Samuel   ║", ScreenCharacterStyle.Bold);
+		writer.drawString(0, 2, "╚═══════════════════════════════════════════════════════════════════════════════════════════╝", ScreenCharacterStyle.Bold);
+		writer.drawString(0, 3, "    Control: [ENTER] = Run to the end                         Any other key for next step    ");
+		
+		screen.setCursorPosition(0, 9);
+		
+		int y = 5;
 
-		printTapes(tapes, current);
+		printTapes(writer, tapes, this.currentState, y);
+		screen.refresh();
 
-		while (true) {
+		Key key = null;
+		boolean runThrough = false;
+		
+		while (key == null || key.getKind() != Kind.Escape || runThrough) {
 			this.stepCount++;
 
 			char[] values = new char[3];
@@ -55,12 +63,19 @@ public class FacultyMachine extends MachineBase implements Machine {
 				values[i] = tapes[i].read();
 			}
 
-			Transition matchingTransaction = current.findTransaction(values);
+			Transition matchingTransaction = this.currentState.findTransition(values);
 
 			if (matchingTransaction == null) {
-				printTapes(tapes, current);
-				System.out.println("Finished!");
-				return;
+				printTapes(writer, tapes, this.currentState, y);
+				screen.refresh();
+				
+				Color color = writer.getForegroundColor();
+				writer.setForegroundColor(Color.GREEN);
+				writer.drawString(0, 9, "FINISHED!");
+				writer.setForegroundColor(color);
+				screen.refresh();
+				
+				break;
 			}
 
 			for (int i = 0; i < tapes.length; i++) {
@@ -68,10 +83,31 @@ public class FacultyMachine extends MachineBase implements Machine {
 						matchingTransaction.getDirection()[i]);
 			}
 
-			current = matchingTransaction.getTargetState();
+			this.currentState = matchingTransaction.getTargetState();
 
 			// Comment out for max performance :)
-			printTapes(tapes, current);
+			printTapes(tapes, this.currentState);
+			printTapes(writer, tapes, this.currentState, y);
+			screen.refresh();
+			
+			do {
+				key = screen.readInput();
+			} while(!runThrough && key == null);
+			
+			if(key != null) {
+				if (key.getKind() == Kind.Enter) {
+					// Run through
+					runThrough = true;
+				}
+				// Else: next step
+			}
 		}
+		
+		// Wait until user presses a key to terminate the application
+		while(screen.readInput() == null) {
+			
+		}
+		
+		screen.stopScreen();
 	}
 }

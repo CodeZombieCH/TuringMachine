@@ -20,8 +20,8 @@ public class StateTest {
 		State state = new State();
 		Transition transition = new Transition(input, output, direc, new State("s1"));
 		
-		state.addState(transition);
-		actual = state.findTransaction(input.toCharArray());
+		state.addTransition(transition);
+		actual = state.findTransition(input.toCharArray());
 		
 		assertArrayEquals("110".toCharArray() , actual.getOutput());
 	}
