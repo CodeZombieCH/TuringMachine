@@ -46,6 +46,6 @@ public class MachineFactory {
 				new Tape("B")
 		};
 		
-		return new FacultyMachine(states, states[0], tapes);
+		return new FactorialMachine(states, states[0], tapes);
 	}
 }

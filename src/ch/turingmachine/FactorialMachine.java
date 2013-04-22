@@ -8,13 +8,12 @@ import com.googlecode.lanterna.screen.ScreenCharacterStyle;
 import com.googlecode.lanterna.screen.ScreenWriter;
 import com.googlecode.lanterna.terminal.Terminal.Color;
 
-public class FacultyMachine extends MachineBase implements Machine {
+public class FactorialMachine extends MachineBase implements Machine {
 	private State[] states;
 	private State currentState;
 	private Tape[] tapes;
-	
 
-	public FacultyMachine(State[] states, State initialState, Tape[] tapes) {
+	public FactorialMachine(State[] states, State initialState, Tape[] tapes) {
 		this.states = states;
 		this.currentState = initialState;
 		this.tapes = tapes;
@@ -28,7 +27,12 @@ public class FacultyMachine extends MachineBase implements Machine {
 		}
 		
 		// Convert argument to input string for tape 1
-		String input1 = new String(new char[args[0]]).replace("\0", "1");
+		String input1;
+		if(args[0]!=0)
+			input1 = new String(new char[args[0]]).replace("\0", "1");
+		else
+			input1 = "B";
+		
 		
 		tapes[0].initialize(input1.toCharArray());
 		

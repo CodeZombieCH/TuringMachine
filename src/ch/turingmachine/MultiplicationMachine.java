@@ -14,8 +14,16 @@ public class MultiplicationMachine extends MachineBase implements Machine {
 		}
 		
 		// Convert arguments to input strings for tapes
-		String input1 = new String(new char[args[0]]).replace("\0", "1");
-		String input2 = new String(new char[args[1]]).replace("\0", "1");
+		String input1;
+		if(args[0]!=0)
+			input1 = new String(new char[args[0]]).replace("\0", "1");
+		else
+			input1 = "B";
+		String input2;
+		if(args[1]!=0)
+			input2 = new String(new char[args[1]]).replace("\0", "1");
+		else
+			input2 = "B";
 		
 		State[] states = new State[] {
 				new State("State 1"),
