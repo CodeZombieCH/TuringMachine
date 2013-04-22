@@ -14,7 +14,12 @@ public class FactorialMachine extends MachineBase implements Machine {
 		}
 		
 		// Convert argument to input string for tape 1
-		String input1 = new String(new char[args[0]]).replace("\0", "1");
+		String input1;
+		if(args[0]!=0)
+			input1 = new String(new char[args[0]]).replace("\0", "1");
+		else
+			input1 = "B";
+		
 		
 		State[] states = new State[] { new State("State 1"),
 				new State("State 2"), new State("State 3"),
