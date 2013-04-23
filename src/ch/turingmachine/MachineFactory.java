@@ -3,13 +3,29 @@ package ch.turingmachine;
 public class MachineFactory {
 
 	public MachineFactory() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	
 	public TuringMachine createMultiplicationMachine() {
-		return null;
+		State[] states = new State[] {
+				new State("State 1"),
+				new State("State 2") };
+		
+
+		states[0].addTransition(new Transition("11B", "111", "NRR", states[0]));
+		states[0].addTransition(new Transition("1BB", "BBB", "RLN", states[1]));
+		states[1].addTransition(new Transition("11B", "111", "NLR", states[1]));
+		states[1].addTransition(new Transition("1BB", "BBB", "RRN", states[0]));
+
+		Tape[] tapes = new Tape[] {
+				new Tape("B"),
+				new Tape("B"),
+				new Tape("B") 
+				};
+		return new TuringMachine(states, states[0], tapes);
 	}
+	
 	
 	public TuringMachine createFactorialMachine() {
 		State[] states = new State[] {
