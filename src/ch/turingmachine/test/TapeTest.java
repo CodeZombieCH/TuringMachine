@@ -74,4 +74,20 @@ public class TapeTest {
 			tape.move(Direction.RIGHT);
 		}
 	}
+	
+	@Test
+	public void testUnaryReader() throws Exception {
+		Tape tape = new Tape("11111");
+		assertEquals(5, tape.readAsUnary('1'));
+		
+		for (int i = 0; i < 3; i++) {
+			tape.move(Direction.RIGHT);
+		}
+		assertEquals(5, tape.readAsUnary('1'));
+
+		for (int i = 0; i < 2; i++) {
+			tape.move(Direction.RIGHT);
+		}
+		assertEquals(5, tape.readAsUnary('1'));
+	}
 }

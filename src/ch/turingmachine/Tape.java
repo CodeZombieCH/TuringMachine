@@ -2,7 +2,6 @@ package ch.turingmachine;
 
 import java.util.Stack;
 
-import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.ScreenCharacterStyle;
 import com.googlecode.lanterna.screen.ScreenWriter;
 import com.googlecode.lanterna.terminal.Terminal.Color;
@@ -184,5 +183,64 @@ public class Tape {
 		writer.setForegroundColor(Color.YELLOW);
 		writer.drawString(range * 3, y, "[" + this.current + "]");
 		writer.setForegroundColor(color);
+	}
+	
+	/**
+	 * Reads the characters on a tape as unary number where 1 is represented by a specific symbol.
+	 * @param symbol representing the 1 
+	 * @return the unary number as integer
+	 * @throws Exception
+	 */
+	public int readAsUnary(char unarySymbol) throws Exception {
+		/* Basic implementation
+		 * This is by far not perfect as the following examples illustrate:
+		 * - B111B111B returns 6 instead of an exception
+		 * 
+		 */
+		
+		int counter = 0;
+		
+		// Left tape
+		for(int i = 0; i < this.leftTape.size(); i++) {
+			char character = this.leftTape.get(i);
+			
+			if(character == BLANK) {
+				continue;
+			}
+			else if(character == unarySymbol) {
+				counter++;
+			}
+			else {
+				throw new Exception("Failed to read unary number. Unexpected character '" + character + "' on tape.");
+			}
+		}
+		
+		// Current position
+		if(this.current == BLANK) {
+			
+		}
+		else if(this.current == unarySymbol) {
+			counter++;
+		}
+		else {
+			throw new Exception("Failed to read unary number. Unexpected character '" + this.current + "' on tape.");
+		}
+		
+		// Right tape
+		for(int i = this.rightTape.size() - 1; i >= 0; i--) {
+			char character = this.rightTape.get(i);
+			
+			if(character == BLANK) {
+				continue;
+			}
+			else if(character == unarySymbol) {
+				counter++;
+			}
+			else {
+				throw new Exception("Failed to read unary number. Unexpected character '" + character + "' on tape.");
+			}
+		}
+		
+		return counter;
 	}
 }

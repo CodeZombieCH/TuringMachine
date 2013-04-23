@@ -5,8 +5,11 @@ public class Run {
 	public static void main(String[] args) {
 		MachineFactory factory = new MachineFactory();
 		
-		Machine machine = factory.createFacultyMachine();
-		machine.run(new int[] {5});
+		TuringMachine machine = factory.createFactorialMachine();
+		machine.initialize();
+		machine.prepare(new int[] { 9 });
+		machine.run();
+		machine.terminate();
 		
 		//new MultiplicationMachine().run(new int[] {3, 5});
 	}

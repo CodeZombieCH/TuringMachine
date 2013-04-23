@@ -7,11 +7,11 @@ public class MachineFactory {
 	}
 
 	
-	public Machine createMultiplicationMachine() {
+	public TuringMachine createMultiplicationMachine() {
 		return null;
 	}
 	
-	public Machine createFacultyMachine() {
+	public TuringMachine createFactorialMachine() {
 		State[] states = new State[] {
 				new State("State 1"),
 				new State("State 2"),
@@ -46,6 +46,6 @@ public class MachineFactory {
 				new Tape("B")
 		};
 		
-		return new FactorialMachine(states, states[0], tapes);
+		return new TuringMachine(states, states[0], tapes);
 	}
 }
