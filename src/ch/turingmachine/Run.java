@@ -14,7 +14,7 @@ public class Run {
 		
 		TuringMachine machine = factory.createMultiplicationMachine();
 		machine.initialize();
-		machine.prepare(new int[] { 4, 4 });
+		machine.prepare(new int[] { 5, 3 });
 		machine.run();
 		machine.terminate();
 	}
