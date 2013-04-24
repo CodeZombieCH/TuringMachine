@@ -40,6 +40,15 @@ public class Tape {
 		}
 	}
 	
+	public void initializeAsUnary(int number, char unarySymbol) {
+		char[] input = new char[number];
+		for (int i = 0; i < number; i++) {
+			input[i] = unarySymbol;
+		}
+		
+		initialize(input);
+	}
+	
 	public char read() {
 		return this.current;
 	}
@@ -124,7 +133,11 @@ public class Tape {
 	}
 	
 	@Override
-	public String toString() {		Character[] chars = new Character[rightTape.size()];		rightTape.copyInto(chars);		String right = "";
+	public String toString() {
+		Character[] chars = new Character[rightTape.size()];
+		rightTape.copyInto(chars);
+		String right = "";
+		
 		for (int i = chars.length - 1; i >= 0; i--) {
 			right += chars[i] + "  ";
 		}

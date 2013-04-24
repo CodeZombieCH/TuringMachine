@@ -7,7 +7,7 @@ public class Run {
 		
 		TuringMachine machine = factory.createFactorialMachine();
 		machine.initialize();
-		machine.prepare(new int[] { 9 });
+		machine.prepare();
 		machine.run();
 		machine.terminate();
 		

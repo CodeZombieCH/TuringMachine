@@ -8,9 +8,12 @@ import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.input.Key.Kind;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.ScreenWriter;
+import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.Terminal.Color;
 
 public class TuringMachine {
+	public final char unarySymbol = '1'; 
+	
 	// Terminal stuff
 	private Screen screen;
 	private final int offsetTop = 5;
@@ -20,6 +23,7 @@ public class TuringMachine {
 	private State currentState;
 	private Tape[] tapes;
 	
+	// Some statistics
 	private int stepCount = 0;
 	private long startTime = 0;
 	private long endTime = 0;
@@ -36,50 +40,101 @@ public class TuringMachine {
 		this.screen = TerminalFacade.createScreen();
 		this.screen.startScreen();
 		
-		ScreenWriter writer = new ScreenWriter(screen);
-
-		writer.drawString(0, 0, "╔═══════════════════════════════════════════════════════════════════════════════════════════╗");
-		writer.drawString(0, 1, "║   Turing machine                                        by Marc-André, Marco und Samuel   ║");
-		writer.drawString(0, 2, "╚═══════════════════════════════════════════════════════════════════════════════════════════╝");
-		writer.drawString(0, 3, "    Control: [ENTER] = Run to the end                         Any other key for next step    ");
+		this.screen.getTerminal().setCursorVisible(false);
+		
+		printHeader();
 	}
 
-	public void prepare(int[] args) {
-		
-		/*
+	public void prepare() {
+		Terminal terminal = this.screen.getTerminal();
 		ScreenWriter writer = new ScreenWriter(screen);
 		
-		writer.drawString(0, offsetTop, "Please enter initial value for tape (defaut is full of BLANKS):");
+		writer.drawString(0, offsetTop, "Please enter the initial values for each tape (default is full of BLANKS):");
+		terminal.applyBackgroundColor(Color.WHITE);
+		terminal.applyForegroundColor(Color.BLACK);
+		this.screen.refresh();
 		
 		for (int i = 0; i < tapes.length; i++) {
+			this.screen.setCursorPosition(0, offsetTop + i + 1);
+			terminal.setCursorVisible(true);
+			this.screen.refresh();
 			
+			Key key = null;
+			StringBuilder builder = new StringBuilder();
+
+			while(key == null) {
+				key = screen.readInput();
+				
+				if(key == null)
+					continue;
+				
+				if(key.getKind() == Kind.NormalKey) {
+					terminal.putCharacter(key.getCharacter());
+					builder.append(key.getCharacter());
+				}
+				/*
+				else if(key.getKind() == Kind.Backspace) {
+					terminal.putCharacter(key.getCharacter());
+					builder.delete(builder.length() - 2, 1);
+					
+				}
+				*/
+				else if(key.getKind() == Kind.Enter) {
+					// Store value on tape
+					
+					// Try to parse as integer
+					try {
+					    Integer number = new Integer(builder.toString());
+					    
+					    // Parse succeeded, treat as unary number
+					    this.tapes[i].initializeAsUnary(number, unarySymbol);
+					}
+					catch(NumberFormatException ex) {
+						// Parse failed, treat a pure character input
+						if(builder.length() == 0) builder.append(Tape.BLANK);
+						
+						this.tapes[i].initialize(builder.toString().toCharArray());
+					}
+					
+					// Exit the while loop, go to the next tape
+					break;
+				}
+
+				key = null;
+			}
 		}
-		*/
 		
+		terminal.setCursorVisible(false);
+	}
+	
+	public void prepare(int[] args) {
 		// Validate arguments
-		if (args.length != 1) {
+		if (args.length != this.tapes.length) {
 			throw new IllegalArgumentException();
 		}
 
-		// Convert argument to input string for tape 1
-		String input1;
-		if (args[0] != 0)
-			input1 = new String(new char[args[0]]).replace("\0", "1");
-		else
-			input1 = "B";
-
-		tapes[0].initialize(input1.toCharArray());
+		// Convert arguments to input strings
+		for (int i = 0; i < args.length; i++) {
+			if(args[i] == 0) {
+				this.tapes[i].initialize("B".toCharArray());	
+			}
+			else {
+				this.tapes[i].initializeAsUnary(args[i], unarySymbol);
+			}
+		}		
 	}
 
 	
 	public void run() {
 		// Expecting tapes to be initialized
+		this.screen.getTerminal().setCursorVisible(false);
+		
+		printHeader();
 		
 		ScreenWriter writer = new ScreenWriter(screen);
+		
 
-		int y = 5;
-
-		printTapes(writer, tapes, this.currentState, y);
+		printTapes(writer, tapes, this.currentState, this.offsetTop);
 		screen.refresh();
 		
 		Key key = null;
@@ -122,7 +177,7 @@ public class TuringMachine {
 				String duration = formatter.format(endTime - startTime);
 				
 				
-				printTapes(writer, tapes, this.currentState, y);
+				printTapes(writer, tapes, this.currentState, this.offsetTop);
 				screen.refresh();
 
 				Color color = writer.getForegroundColor();
@@ -151,7 +206,7 @@ public class TuringMachine {
 
 			// Comment out for max performance :)
 			//printTapes(tapes, this.currentState);
-			printTapes(writer, tapes, this.currentState, y);
+			printTapes(writer, tapes, this.currentState, this.offsetTop);
 			screen.refresh();
 
 			do {
@@ -191,10 +246,30 @@ public class TuringMachine {
 	public void printTapesAsUnaryNumber(ScreenWriter writer, int y) {
 		for (int i = 0; i < tapes.length; i++) {
 			try {
-				writer.drawString(0, y + i, "Tape #" + (i + 1) + " as unary number: " + tapes[i].readAsUnary('1'));
+				writer.drawString(0, y + i, "Tape #" + (i + 1) + " as unary number: " + tapes[i].readAsUnary(unarySymbol));
 			} catch (Exception ex) {
 				writer.drawString(0, y + i, "Tape #" + (i + 1) + " as unary number: " + ex.getMessage());
 			}
+		}
+	}
+	
+	public void printHeader() {
+		this.screen.clear();
+		this.screen.getTerminal().clearScreen();
+		
+		this.screen.refresh();
+		
+		ScreenWriter writer = new ScreenWriter(screen);
+
+		writer.drawString(0, 0, "╔═══════════════════════════════════════════════════════════════════════════════════════════╗");
+		writer.drawString(0, 1, "║   Turing machine                                        by Marc-André, Marco und Samuel   ║");
+		writer.drawString(0, 2, "╚═══════════════════════════════════════════════════════════════════════════════════════════╝");
+		writer.drawString(0, 3, "    Control: [ENTER] = Run to the end                         Any other key for next step    ");
+		
+		// Clear the screen below the header
+		String emptyLine = new String(new char[screen.getTerminalSize().getColumns()]).replace("\0", " ");
+		for (int i = 0; i < 15; i++) {
+			writer.drawString(0, this.offsetTop + i, emptyLine);
 		}
 	}
 }
