@@ -5,12 +5,26 @@ public class Run {
 	public static void main(String[] args) {
 		MachineFactory factory = new MachineFactory();
 		
+		/*
 		TuringMachine machine = factory.createFactorialMachine();
 		machine.initialize();
 		machine.prepare();
 		machine.run();
 		machine.terminate();
+		*/
 		
-		//new MultiplicationMachine().run(new int[] {3, 5});
+		TuringMachine machine = factory.createBalooMachine();
+		machine.initialize();
+		machine.prepare();
+		machine.run();
+		machine.terminate();
+		
+		/*
+		TuringMachine machine = factory.createMultiplicationMachine();
+		machine.initialize();
+		machine.prepare();
+		machine.run();
+		machine.terminate();
+		*/
 	}
 }
