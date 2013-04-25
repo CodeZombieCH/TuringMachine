@@ -34,8 +34,7 @@ public class MachineFactory {
 				new State("State 3"),
 				new State("State 4"),
 				new State("State 5"),
-				new State("State 6"),
-				new State("State 7")
+				new State("State 6")
 		};
 		
 		states[0].addTransition(new Transition("1BB", "11B", "RRN", states[0]));
