@@ -11,11 +11,13 @@ import com.googlecode.lanterna.screen.ScreenCharacterStyle;
 import com.googlecode.lanterna.screen.ScreenWriter;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.Terminal.Color;
+import com.googlecode.lanterna.terminal.swing.SwingTerminal;
 
 public class TuringMachine {
 	public final char unarySymbol = '1'; 
 	
 	// Terminal stuff
+	private SwingTerminal terminal;
 	private Screen screen;
 	private final int offsetTop = 6;
 	
@@ -40,10 +42,21 @@ public class TuringMachine {
 
 	public void initialize() {
 		// Initialize terminal
+		//this.terminal = new SwingTerminal();
+		//this.screen = new Screen(this.terminal);
+		
 		this.screen = TerminalFacade.createScreen();
+		this.terminal = (SwingTerminal)this.screen.getTerminal();
 		this.screen.startScreen();
 		
-		this.screen.getTerminal().setCursorVisible(false);
+		this.terminal.getJFrame().addWindowListener(new java.awt.event.WindowAdapter() {
+		    public void windowClosing(java.awt.event.WindowEvent evt) {
+		        screen.stopScreen();
+		        System.exit(0);
+		    }
+		});
+		
+		this.terminal.setCursorVisible(false);
 		
 		printHeader();
 	}
@@ -136,6 +149,7 @@ public class TuringMachine {
 		
 		ScreenWriter writer = new ScreenWriter(screen);
 		
+		//StateFrame stateFrame = new StateFrame(this.name, this.currentState.getName());
 
 		printTapes(writer, tapes, this.currentState, this.offsetTop);
 		screen.refresh();
