@@ -22,7 +22,7 @@ public class StateFrame extends JFrame {
 		this.setSize(640, 240);
 		this.setLocation(dim.width/2 - getWidth()/2, (int) (dim.height*0.8 - getHeight()/2));
 		this.setUndecorated(true);
-		this.setFocusable(false);
+		this.setFocusableWindowState(false);
 	}
 	
 	public void setStateImage(String state) {
