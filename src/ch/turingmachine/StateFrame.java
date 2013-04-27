@@ -27,9 +27,6 @@ public class StateFrame extends JFrame {
 	
 	public void setStateImage(String state) {
 		String path = "./img/" + machine + "/" + state + ".png";
-		
-		
-		System.out.println(path);
 		panel.setImage(path);
 	}
 }
