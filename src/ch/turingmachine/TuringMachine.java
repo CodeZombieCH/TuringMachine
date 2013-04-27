@@ -64,17 +64,18 @@ public class TuringMachine {
 	}
 
 	public void prepare() {
-		Terminal terminal = this.screen.getTerminal();
 		ScreenWriter writer = new ScreenWriter(screen);
 		
-		writer.drawString(0, offsetTop, "Please enter the initial values for each tape (default is full of BLANKS):");
+		writer.drawString(0, offsetTop, "Please enter the initial values for the " + this.tapes.length + " tapes:");
+		writer.drawString(0, offsetTop + 1, "(Press enter for an empty tape)");
 		terminal.applyBackgroundColor(Color.WHITE);
 		terminal.applyForegroundColor(Color.BLACK);
 		this.screen.refresh();
 		
 		for (int i = 0; i < tapes.length; i++) {
-			this.screen.setCursorPosition(0, offsetTop + i + 1);
-			terminal.setCursorVisible(true);
+			this.screen.putString(0, offsetTop + i + 2, String.format("Tape %d: ", i + 1), Color.WHITE, Color.BLACK);
+			this.screen.setCursorPosition(8, offsetTop + i + 2);
+			this.terminal.setCursorVisible(true);
 			this.screen.refresh();
 			
 			Key key = null;
@@ -122,7 +123,9 @@ public class TuringMachine {
 			}
 		}
 		
-		terminal.setCursorVisible(false);
+		this.terminal.setCursorVisible(false);
+		this.screen.setCursorPosition(0, 0);
+		this.screen.refresh();
 	}
 	
 	public void prepare(int[] args) {
