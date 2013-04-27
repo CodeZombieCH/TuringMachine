@@ -4,14 +4,7 @@ public class Run {
 
 	public static void main(String[] args) {
 		MachineFactory factory = new MachineFactory();
-		
-		/*
-		// Validate arguments
-		if(args.length!= 1) {
-			System.exit(1);
-		}
-		*/
-		
+				
 		TuringMachine machine;
 		
 		if(args.length == 1) {
@@ -20,8 +13,7 @@ public class Run {
 		else
 		{
 			machine = factory.createMultiplicationMachine();
-			//machine = factory.createBalooMachine();
-			//machine = factory.createMultiplicationMachine();
+			//machine = factory.createFactorialMachine();
 		}
 	
 		machine.initialize();

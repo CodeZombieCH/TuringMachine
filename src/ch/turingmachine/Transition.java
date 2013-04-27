@@ -32,7 +32,6 @@ public class Transition
 			try {
 				this.direction[i] = Utilities.parseDirection(d);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

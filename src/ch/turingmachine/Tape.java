@@ -73,7 +73,6 @@ public class Tape {
 	
 				if(this.leftTape.empty()) {
 					// Leaving range
-					//this.blankOffset--;
 					this.current = BLANK;
 				}
 				else {
@@ -100,7 +99,6 @@ public class Tape {
 	
 				if(this.rightTape.empty()) {
 					// Leaving range
-					//this.blankOffset++;
 					this.current = BLANK;
 				}
 				else {
