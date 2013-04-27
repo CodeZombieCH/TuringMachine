@@ -47,7 +47,9 @@ public class TuringMachine {
 		
 		this.screen = TerminalFacade.createScreen();
 		this.terminal = (SwingTerminal)this.screen.getTerminal();
+		
 		this.screen.startScreen();
+		this.terminal.getJFrame().setLocation(0, 0);
 		
 		this.terminal.getJFrame().addWindowListener(new java.awt.event.WindowAdapter() {
 		    public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -149,7 +151,10 @@ public class TuringMachine {
 		
 		ScreenWriter writer = new ScreenWriter(screen);
 		
-		//StateFrame stateFrame = new StateFrame(this.name, this.currentState.getName());
+		StateFrame stateFrame = new StateFrame(this.name, this.currentState.getName());
+		stateFrame.setLocation(0, this.terminal.getJFrame().getHeight());
+		stateFrame.setVisible(true);
+		this.terminal.getJFrame().requestFocus();
 
 		printTapes(writer, tapes, this.currentState, this.offsetTop);
 		screen.refresh();
@@ -167,6 +172,7 @@ public class TuringMachine {
 		}
 		else if(key.getKind() == Kind.Enter) {
 			runThrough = true;
+			stateFrame.setVisible(false);
 		}
 		
 		// Let's go
@@ -182,8 +188,7 @@ public class TuringMachine {
 				values[i] = tapes[i].read();
 			}
 
-			Transition matchingTransition = this.currentState
-					.findTransition(values);
+			Transition matchingTransition = this.currentState.findTransition(values);
 
 			if (matchingTransition == null) {
 				// No further transition found, were done!
@@ -217,8 +222,7 @@ public class TuringMachine {
 			}
 
 			for (int i = 0; i < tapes.length; i++) {
-				tapes[i].write(matchingTransition.getOutput()[i],
-						matchingTransition.getDirection()[i]);
+				tapes[i].write(matchingTransition.getOutput()[i], matchingTransition.getDirection()[i]);
 			}
 
 			this.currentState = matchingTransition.getTargetState();
@@ -227,6 +231,9 @@ public class TuringMachine {
 			//printTapes(tapes, this.currentState);
 			printTapes(writer, tapes, this.currentState, this.offsetTop);
 			screen.refresh();
+			
+			// Update state
+			stateFrame.setStateImage(this.currentState.getName());
 
 			do {
 				key = screen.readInput();
@@ -236,6 +243,7 @@ public class TuringMachine {
 				if (key.getKind() == Kind.Enter) {
 					// Run through
 					runThrough = true;
+					stateFrame.setVisible(false);
 				}
 				// Else: next step
 			}
@@ -244,6 +252,7 @@ public class TuringMachine {
 
 	public void terminate() {
 		this.screen.stopScreen();
+		System.exit(0);
 	}
 	
 	public void printTapes(Tape[] tapes, State state) {

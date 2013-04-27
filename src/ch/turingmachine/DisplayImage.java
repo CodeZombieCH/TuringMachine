@@ -12,13 +12,13 @@ public class DisplayImage extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
 
-    public DisplayImage(String state) {
-       setImage(state);
+    public DisplayImage(String imagePath) {
+       setImage(imagePath);
     }
     
-    public void setImage(String state) {
+    public void setImage(String imagePath) {
     	try {
-			image = ImageIO.read(new File("C:/" + state + ".jpg"));
+			image = ImageIO.read(new File(imagePath));
 			this.repaint();
 		} catch (IOException e) {
 			e.printStackTrace();

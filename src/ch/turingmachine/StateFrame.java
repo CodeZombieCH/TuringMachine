@@ -14,13 +14,22 @@ public class StateFrame extends JFrame {
 	
 	public StateFrame(String machine, String state) {
 		this.machine = machine;
-		panel = new DisplayImage(state);
+		
+		String path = "./img/" + machine + "/0.png";
+		
+		panel = new DisplayImage(path);
 		this.add(panel);
 		this.setSize(640, 240);
 		this.setLocation(dim.width/2 - getWidth()/2, (int) (dim.height*0.8 - getHeight()/2));
+		this.setUndecorated(true);
+		this.setFocusable(false);
 	}
 	
-	public void setFrame(String state) {
-		panel.setImage(state);
+	public void setStateImage(String state) {
+		String path = "./img/" + machine + "/" + state + ".png";
+		
+		
+		System.out.println(path);
+		panel.setImage(path);
 	}
 }

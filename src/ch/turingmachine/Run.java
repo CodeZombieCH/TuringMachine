@@ -19,8 +19,8 @@ public class Run {
 		}
 		else
 		{
-			//machine = factory.createFactorialMachine();
-			machine = factory.createBalooMachine();
+			machine = factory.createMultiplicationMachine();
+			//machine = factory.createBalooMachine();
 			//machine = factory.createMultiplicationMachine();
 		}
 	
