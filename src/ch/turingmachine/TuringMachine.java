@@ -236,7 +236,9 @@ public class TuringMachine {
 			screen.refresh();
 			
 			// Update state
-			stateFrame.setStateImage(this.currentState.getName());
+			if(!runThrough) {
+				stateFrame.setStateImage(this.currentState.getName());
+			}
 
 			do {
 				key = screen.readInput();
