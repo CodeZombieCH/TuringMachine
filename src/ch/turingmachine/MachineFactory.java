@@ -7,12 +7,24 @@ public class MachineFactory {
 	}
 
 	
+	public TuringMachine create(String name) {
+		switch(name) {
+			case "multiplication":
+				return createMultiplicationMachine();
+			case "baloo":
+				return createBalooMachine();
+			case "factorial":
+				return createFactorialMachine();
+			default:
+				return null;
+		}
+	}
+	
 	public TuringMachine createMultiplicationMachine() {
 		State[] states = new State[] {
 				new State("State 1"),
 				new State("State 2") };
 		
-
 		states[0].addTransition(new Transition("11B", "111", "NRR", states[0]));
 		states[0].addTransition(new Transition("1BB", "BBB", "RLN", states[1]));
 		states[1].addTransition(new Transition("11B", "111", "NLR", states[1]));
@@ -23,9 +35,8 @@ public class MachineFactory {
 				new Tape("B"),
 				new Tape("B") 
 				};
-		return new TuringMachine(states, states[0], tapes);
+		return new TuringMachine("Multiplication Machine", states, states[0], tapes);
 	}
-	
 	
 	public TuringMachine createBalooMachine() {
 		State[] states = new State[] {
@@ -59,7 +70,7 @@ public class MachineFactory {
 				new Tape("B")
 		};
 		
-		return new TuringMachine(states, states[0], tapes);
+		return new TuringMachine("Factorial Machine by Baloo", states, states[0], tapes);
 	}
 	
 	public TuringMachine createFactorialMachine() {
@@ -97,6 +108,6 @@ public class MachineFactory {
 				new Tape("B")
 		};
 		
-		return new TuringMachine(states, states[0], tapes);
+		return new TuringMachine("Factorial Machine", states, states[0], tapes);
 	}
 }

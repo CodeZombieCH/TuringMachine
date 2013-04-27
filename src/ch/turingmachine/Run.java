@@ -6,25 +6,28 @@ public class Run {
 		MachineFactory factory = new MachineFactory();
 		
 		/*
-		TuringMachine machine = factory.createFactorialMachine();
-		machine.initialize();
-		machine.prepare();
-		machine.run();
-		machine.terminate();
+		// Validate arguments
+		if(args.length!= 1) {
+			System.exit(1);
+		}
 		*/
 		
-		TuringMachine machine = factory.createBalooMachine();
-		machine.initialize();
-		machine.prepare();
-		machine.run();
-		machine.terminate();
+		TuringMachine machine;
 		
-		/*
-		TuringMachine machine = factory.createMultiplicationMachine();
+		if(args.length == 1) {
+			machine = factory.create(args[0]);
+		}
+		else
+		{
+			//machine = factory.createFactorialMachine();
+			machine = factory.createBalooMachine();
+			//machine = factory.createMultiplicationMachine();
+		}
+	
 		machine.initialize();
 		machine.prepare();
 		machine.run();
 		machine.terminate();
-		*/
+
 	}
 }

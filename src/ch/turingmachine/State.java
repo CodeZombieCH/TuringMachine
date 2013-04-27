@@ -3,9 +3,6 @@ package ch.turingmachine;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.googlecode.lanterna.screen.ScreenCharacterStyle;
-import com.googlecode.lanterna.screen.ScreenWriter;
-
 public class State {
 
 	private ArrayList<Transition> transitions;

@@ -7,6 +7,7 @@ import com.googlecode.lanterna.TerminalFacade;
 import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.input.Key.Kind;
 import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.screen.ScreenCharacterStyle;
 import com.googlecode.lanterna.screen.ScreenWriter;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.Terminal.Color;
@@ -16,9 +17,10 @@ public class TuringMachine {
 	
 	// Terminal stuff
 	private Screen screen;
-	private final int offsetTop = 5;
+	private final int offsetTop = 6;
 	
 	// What makes the Turing machine
+	private String name;
 	private State[] states;
 	private State currentState;
 	private Tape[] tapes;
@@ -29,7 +31,8 @@ public class TuringMachine {
 	private long endTime = 0;
 
 	
-	public TuringMachine(State[] states, State initialState, Tape[] tapes) {
+	public TuringMachine(String name, State[] states, State initialState, Tape[] tapes) {
+		this.name = name;
 		this.states = states;
 		this.currentState = initialState;
 		this.tapes = tapes;
@@ -180,12 +183,14 @@ public class TuringMachine {
 				printTapes(writer, tapes, this.currentState, this.offsetTop);
 				screen.refresh();
 
+				int offset = this.offsetTop + this.tapes.length + 2;
+				
 				Color color = writer.getForegroundColor();
 				writer.setForegroundColor(Color.GREEN);
-				writer.drawString(0, 9, "FINISHED in " + duration + " nano seconds");
+				writer.drawString(0, offset, "FINISHED in " + duration + " nano seconds");
 				writer.setForegroundColor(color);
 				
-				printTapesAsUnaryNumber(writer, 10);
+				printTapesAsUnaryNumber(writer, offset + 1);
 				
 				screen.refresh();
 				
@@ -260,11 +265,16 @@ public class TuringMachine {
 		this.screen.refresh();
 		
 		ScreenWriter writer = new ScreenWriter(screen);
+		Color color = writer.getForegroundColor();
 
 		writer.drawString(0, 0, "╔═══════════════════════════════════════════════════════════════════════════════════════════╗");
 		writer.drawString(0, 1, "║   Turing machine                                        by Marc-André, Marco und Samuel   ║");
 		writer.drawString(0, 2, "╚═══════════════════════════════════════════════════════════════════════════════════════════╝");
 		writer.drawString(0, 3, "    Control: [ENTER] = Run to the end                         Any other key for next step    ");
+		writer.drawString(0, 4, "");
+		writer.setForegroundColor(Color.GREEN);
+		writer.drawString(Math.round((93 - this.name.length()) / 2), 5, this.name, ScreenCharacterStyle.Bold);
+		writer.setForegroundColor(color);
 		
 		// Clear the screen below the header
 		String emptyLine = new String(new char[screen.getTerminalSize().getColumns()]).replace("\0", " ");
