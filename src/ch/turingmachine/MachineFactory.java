@@ -68,6 +68,6 @@ public class MachineFactory {
 				new Tape("B")
 		};
 		
-		return new TuringMachine("Factorial Machine by Baloo", states, states[0], tapes);
+		return new TuringMachine("Factorial Machine", states, states[0], tapes);
 	}
 }

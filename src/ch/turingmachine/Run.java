@@ -12,8 +12,8 @@ public class Run {
 		}
 		else
 		{
-			machine = factory.createMultiplicationMachine();
-			//machine = factory.createFactorialMachine();
+			//machine = factory.createMultiplicationMachine();
+			machine = factory.createFactorialMachine();
 		}
 	
 		machine.initialize();
