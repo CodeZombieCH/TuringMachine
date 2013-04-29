@@ -28,7 +28,7 @@ public class TuringMachine {
 	private Tape[] tapes;
 	
 	// Some statistics
-	private int stepCount = 0;
+	private long stepCount = 0;
 	private long startTime = 0;
 	private long endTime = 0;
 
